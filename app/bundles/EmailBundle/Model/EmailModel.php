@@ -1706,7 +1706,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             if ($email instanceof Email) {
                 $channel = ($email) ? ['email' => $email->getId()] : 'email';
                 if ($reason == DoNotContact::IS_CONTACTABLE) {
-                    $this->updateFailureCount($stat, $email->getId());
+                    $this->updateFailureCount($stat, $email->getId(), $flush);
                 } elseif ($reason == DoNotContact::UNSUBSCRIBED) {
                     $this->updateUnsubscribeCount($stat, $email->getId());
                 } elseif ($reason == DoNotContact::BOUNCED) {
@@ -2370,11 +2370,11 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
      *
      * @return array
      */
-    public function updateFailureCount(Stat $stat, $emailId)
+    public function updateFailureCount(Stat $stat, $emailId, $flush=true)
     {
         try {
             $stat->setIsFailed(1);
-            $this->getStatRepository()->saveEntity($stat);
+            $this->getStatRepository()->saveEntity($stat, $flush);
             if ($emailId != null) {
                 $this->getRepository()->upFailureCount($emailId, 'failure', 1);
                 $this->getRepository()->upDownSentCount($emailId, 'sent', 1);

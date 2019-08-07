@@ -69,26 +69,32 @@ EOT
             $queueMode             = $container->get('mautic.helper.core_parameters')->getParameter('mailer_spool_type');
             $licenseinfohelper     = $container->get('mautic.helper.licenseinfo');
             $sendResultText        = 'Success';
-            if ($queueMode != 'file') {
-                $output->writeln('Anyfunnels is not set to use queue email.');
-
+            if (!$this->checkRunStatus($input, $output)) {
                 return 0;
             }
+            if ($queueMode != 'file') {
+                $output->writeln('Anyfunnels is not set to use queue email.');
+                $this->completeRun();
 
-            if (!$this->checkRunStatus($input, $output)) {
                 return 0;
             }
             $smHelper=$container->get('le.helper.statemachine');
             if (!$smHelper->isAnyActiveStateAlive()) {
                 $output->writeln('<info>'.'Account is not active to proceed further.'.'</info>');
                 $this->updateAllQueuedMailsAsFailed($container, $output, $translator->trans('le.email.failed.reason1'));
+                $this->completeRun();
+
+                return 0;
+            }
+            $elasticAccountState=$this->checkElasticAccountState($container, $output, $translator);
+            if (!$elasticAccountState) {
+                $this->completeRun();
 
                 return 0;
             }
             if (empty($timeout)) {
                 $timeout = $container->getParameter('mautic.mailer_spool_clear_timeout');
             }
-
             if (!$skipClear) {
                 //Swift mailer's send command does not handle failed messages well rather it will retry sending forever
                 //so let's first handle emails stuck in the queue and remove them if necessary
@@ -170,8 +176,9 @@ EOT
                 $commandArgs['--message-limit'] = $msgLimit;
             } elseif ($msgLimit = $container->getParameter('mautic.mailer_spool_msg_limit')) {
                 $commandArgs['--message-limit'] = $msgLimit;
+            } else {
+                $commandArgs['--message-limit']=2500;
             }
-
             //set time limit
             if ($timeLimit = $input->getOption('time-limit')) {
                 $commandArgs['--time-limit'] = $timeLimit;
@@ -198,13 +205,25 @@ EOT
 
             return 0;
         } catch (\Exception $e) {
-            $providerStatus=$this->checkEmailProviderStatus($container, $output);
-            if (!$providerStatus) {
-                $this->updateAllQueuedMailsAsFailed($container, $output, $translator->trans('le.email.failed.reason2'));
-            }
-            $output->writeln('exception->'.$e->getMessage()."\n");
+            $output->setVerbosity(OutputInterface::VERBOSITY_NORMAL);
+            $output->writeln('<error>'.'exception->'.$e->getMessage().'</error>');
+            $this->checkElasticAccountState($container, $output, $translator);
             //$this->getContainer()->get('mautic.helper.notification')->sendNotificationonFailure(true, false, $e->getMessage());
+            $this->completeRun();
+
             return 0;
+        }
+    }
+
+    public function checkElasticAccountState($container, $output, $translator)
+    {
+        $providerStatus=$this->checkEmailProviderStatus($container, $output);
+        if (!$providerStatus) {
+            $this->updateAllQueuedMailsAsFailed($container, $output, $translator->trans('le.email.failed.reason2'));
+
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -220,13 +239,19 @@ EOT
         if (!$smHelper->isStateAlive($prefix.'_Inactive_Under_Review')) {
             $elasticApiHelper=$container->get('mautic.helper.elasticapi');
             if (!$elasticApiHelper->checkAccountState()) {
-                $smHelper->makeStateInActive([$prefix.'_Active']);
-                $smHelper->newStateEntry($prefix.'_Inactive_Under_Review', '');
-                $smHelper->addStateWithLead();
-                $smHelper->sendInactiveUnderReviewEmail();
-                $output->writeln('<info>App enters into '.$prefix.'_Inactive_Under_Review</info>');
+                try {
+                    $smHelper->makeStateInActive([$prefix.'_Active']);
+                    $smHelper->newStateEntry($prefix.'_Inactive_Under_Review', '');
+                    $smHelper->addStateWithLead();
+                    $smHelper->sendInactiveUnderReviewEmail();
+                    $output->writeln('<info>App enters into '.$prefix.'_Inactive_Under_Review</info>');
 
-                return false;
+                    return false;
+                } catch (\Exception $ex) {
+                    $output->writeln('<error>'.'Exception Occurs at under review process:'.$ex->getMessage().'</error>');
+
+                    return false;
+                }
             } else {
                 $output->writeln('<info>Elastic Email Account is active</info>');
 
@@ -237,7 +262,7 @@ EOT
         }
     }
 
-    public function invokeFailedEventDispatcher($emailModel, $message, $translator, $reason)
+    public function invokeFailedEventDispatcher($emailModel, $message, $translator, $reason, $flush=true)
     {
         if (isset($message->leadIdHash)) {
             $stat = $emailModel->getEmailStatus($message->leadIdHash);
@@ -245,9 +270,11 @@ EOT
 //                $reason = $translator->trans('le.email.dnc.failed', [
 //                    '%subject%' => EmojiHelper::toShort($message->getSubject()),
 //                ]);
-                $emailModel->setDoNotContact($stat, $reason, DoNotContact::IS_CONTACTABLE);
+                $emailModel->setDoNotContact($stat, $reason, DoNotContact::IS_CONTACTABLE, $flush);
                 unset($stat);
-                $emailModel->getEntityManager()->clear(Stat::class);
+                if ($flush) {
+                    $emailModel->getEntityManager()->clear(Stat::class);
+                }
             }
         }
 //        $dispatcher = $container->get('event_dispatcher');
@@ -264,29 +291,59 @@ EOT
             $translator            = $container->get('translator');
             $spoolPath             = $container->getParameter('mautic.mailer_spool_path');
             if (file_exists($spoolPath)) {
+                // Try to save some memory
+                gc_enable();
                 $output->writeln('<info>'.'Process started to update all queued mails as failed'.'</info>');
                 $finder      = Finder::create()->in($spoolPath)->name('*.*');
                 $updatedCount=0;
-                $batch       =200;
+                $batch       =500;
+                $allflushed  =true;
                 foreach ($finder as $messageFile) {
-                    $message = unserialize($messageFile->getContents());
-                    if ($message !== false && is_object($message) && get_class($message) === 'Swift_Message') {
-                        $this->invokeFailedEventDispatcher($emailmodel, $message, $translator, $reason);
-                        //delete the file, either because it sent or because it failed
+                    if (false) { //with stat update
+                        $message = unserialize($messageFile->getContents());
+                        if ($message !== false && is_object($message) && get_class($message) === 'Swift_Message') {
+                            $this->invokeFailedEventDispatcher($emailmodel, $message, $translator, $reason, false);
+                            //delete the file, either because it sent or because it failed
+                            unlink($messageFile);
+                            ++$updatedCount;
+                            --$batch;
+                            if ($batch == 0) {
+                                sleep(2);
+                                // Free some memory
+                                gc_collect_cycles();
+                                $batch=500;
+                                $emailmodel->getEntityManager()->flush();
+                                $emailmodel->getEntityManager()->clear(Stat::class);
+                                $allflushed=true;
+                            } else {
+                                $allflushed=false;
+                            }
+                        }
+                        unset($message, $messageFile);
+                    } else { //without stat update
                         unlink($messageFile);
                         ++$updatedCount;
                         --$batch;
                         if ($batch == 0) {
                             sleep(2);
-                            $batch=200;
+                            // Free some memory
+                            gc_collect_cycles();
+                            $batch=1000;
                         }
+                        unset($messageFile);
                     }
+                }
+                unset($finder);
+
+                if (!$allflushed) {
+                    $emailmodel->getEntityManager()->flush();
+                    $emailmodel->getEntityManager()->clear(Stat::class);
                 }
                 $output->writeln('<info>'.'Updated email count is '.$updatedCount.'</info>');
                 $output->writeln('<info>'.'Process completed to update all queued mails as failed'.'</info>');
             }
         } catch (\Exception $ex) {
-            //file_put_contents("/var/www/mauto/elastic.txt","Exception Occurs:".$ex->getMessage()."\n",FILE_APPEND);
+            $output->writeln('<info>'.'Exception Occurs at spool path cleanup:'.$ex->getMessage().'</info>');
         }
     }
 }

@@ -166,6 +166,7 @@ class StateMachineCommand extends ModeratedCommand
         }
         if ($errormsg != '') {
             $output->writeln('exception->'.$errormsg."\n");
+            $this->completeRun();
 
             return 0;
         }

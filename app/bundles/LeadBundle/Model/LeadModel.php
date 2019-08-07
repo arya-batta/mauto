@@ -2947,7 +2947,7 @@ class LeadModel extends FormModel
                 }
             }
         }
-        $this->getRepository()->saveEntity($lead);
+        $this->getRepository()->saveEntity($lead, $persist);
 
         return $dnc;
     }

@@ -102,6 +102,7 @@ class ResendListOptinCommand extends ModeratedCommand
             }
         } catch (\Exception $e) {
             $output->writeln('exception->'.$e->getMessage()."\n");
+            $this->completeRun();
 
             return 0;
         }

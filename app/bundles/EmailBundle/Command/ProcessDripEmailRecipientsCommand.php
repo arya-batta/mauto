@@ -113,6 +113,7 @@ class ProcessDripEmailRecipientsCommand extends ModeratedCommand
             return 0;
         } catch (\Exception $e) {
             $output->writeln('exception->'.$e->getMessage()."\n");
+            $this->completeRun();
 
             return 0;
         }

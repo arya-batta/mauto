@@ -113,8 +113,12 @@ class UpdateScoreCommand extends ModeratedCommand
             }
             unset($result);
             $output->writeln('<info>'.'===================================</info>');
+            $this->completeRun();
+
+            return 0;
         } catch (\Exception $e) {
             $output->writeln('exception->'.$e->getMessage()."\n");
+            $this->completeRun();
 
             return 0;
         }
