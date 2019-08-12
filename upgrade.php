@@ -14,6 +14,11 @@ date_default_timezone_set('UTC');
 define('MAUTIC_MINIMUM_PHP', '5.6.19');
 define('MAUTIC_MAXIMUM_PHP', '7.1.999');
 
+if (true) {
+    echo 'Upgrade option not supported now.'."\n";
+    exit;
+}
+
 // Are we running the minimum version?
 if (version_compare(PHP_VERSION, MAUTIC_MINIMUM_PHP, 'lt')) {
     echo 'Your server does not meet the minimum PHP requirements. Mautic requires PHP version '.MAUTIC_MINIMUM_PHP.' while your server has '.PHP_VERSION.'. Please contact your host to update your PHP installation.'."\n";
@@ -1184,11 +1189,11 @@ function recursive_remove_directory($directory)
         return true;
     } elseif (!is_dir($directory)) {
         return false;
-        // ... if the path is not readable
+    // ... if the path is not readable
     } elseif (!is_readable($directory)) {
         // ... we return false and exit the function
         return false;
-        // ... else if the path is readable
+    // ... else if the path is readable
     } else {
         // we open the directory
         $handle = opendir($directory);
@@ -1204,7 +1209,7 @@ function recursive_remove_directory($directory)
                 if (is_dir($path)) {
                     // we call this function with the new path
                     recursive_remove_directory($path);
-                    // if the new path is a file
+                // if the new path is a file
                 } else {
                     // we remove the file
                     @unlink($path);

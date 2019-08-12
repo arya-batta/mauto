@@ -16,14 +16,14 @@ return [
                 'path'       => '/ajax',
                 'controller' => 'MauticCoreBundle:Ajax:delegateAjax',
             ],
-            'le_core_update' => [
-                'path'       => '/update',
-                'controller' => 'MauticCoreBundle:Update:index',
-            ],
-            'le_core_update_schema' => [
-                'path'       => '/update/schema',
-                'controller' => 'MauticCoreBundle:Update:schema',
-            ],
+//            'le_core_update' => [
+//                'path'       => '/update',
+//                'controller' => 'MauticCoreBundle:Update:index',
+//            ],
+//            'le_core_update_schema' => [
+//                'path'       => '/update/schema',
+//                'controller' => 'MauticCoreBundle:Update:schema',
+//            ],
             'le_core_form_action' => [
                 'path'       => '/action/{objectAction}/{objectModel}/{objectId}',
                 'controller' => 'MauticCoreBundle:Form:execute',
