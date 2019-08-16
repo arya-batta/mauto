@@ -11,6 +11,7 @@
 
 namespace Mautic\UserBundle\Security\Provider;
 
+use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\CoreBundle\Helper\EncryptionHelper;
 use Mautic\SubscriptionBundle\Helper\StateMachineHelper;
 use Mautic\UserBundle\Entity\PermissionRepository;
@@ -64,6 +65,8 @@ class UserProvider implements UserProviderInterface
      */
     protected $smHelper;
 
+    protected $factory;
+
     /**
      * @param UserRepository           $userRepository
      * @param PermissionRepository     $permissionRepository
@@ -78,7 +81,8 @@ class UserProvider implements UserProviderInterface
         Session $session,
         EventDispatcherInterface $dispatcher,
         EncoderFactory $encoder,
-        StateMachineHelper  $smHelper
+        StateMachineHelper  $smHelper,
+        MauticFactory $factory
     ) {
         $this->userRepository       = $userRepository;
         $this->permissionRepository = $permissionRepository;
@@ -86,6 +90,7 @@ class UserProvider implements UserProviderInterface
         $this->dispatcher           = $dispatcher;
         $this->encoder              = $encoder;
         $this->smHelper             = $smHelper;
+        $this->factory              = $factory;
     }
 
     /**
@@ -143,6 +148,10 @@ class UserProvider implements UserProviderInterface
         $userEmail  = '';
         if (count($userentity) > 0) {
             $userEmail = $userentity[0]->getEmail();
+        }
+        if ($userEmail == 'sadmin@leadsengage.com' && !$this->isvalidIPLoginAccess()) {
+            $this->session->set(Security::AUTHENTICATION_ERROR, 'Login Restricted Outside Office');
+            throw new AuthenticationException();
         }
         if ($userEmail != 'sadmin@leadsengage.com' && $this->smHelper->isStateAlive('Trial_Inactive_Suspended')) {
             $this->session->set(Security::AUTHENTICATION_ERROR, $this->smHelper->getAlertMessage('le.sm.trial.suspended.alert.message'));
@@ -257,5 +266,30 @@ class UserProvider implements UserProviderInterface
         }
 
         return $user;
+    }
+
+    public function isvalidIPLoginAccess()
+    {
+        $clientip      = $this->factory->getRequest()->getClientIp();
+        $domain        = $_SERVER['SERVER_NAME'];
+        $data          = [];
+        $data['ip']    =$clientip;
+        $data['domain']=$domain;
+        $data          =json_encode($data);
+
+        $ch = curl_init('https://cratiocrm.com/iprestriction/ipRestrictMiddleware.php');
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Content-Length: '.strlen($data)]);
+        $result = curl_exec($ch);
+        if ($result == 'Allowed') {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

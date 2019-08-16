@@ -254,6 +254,7 @@ return [
                     'event_dispatcher',
                     'security.encoder_factory',
                     'le.helper.statemachine',
+                    'mautic.factory',
                 ],
             ],
             'mautic.security.authentication_listener' => [
