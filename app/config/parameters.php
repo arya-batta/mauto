@@ -64,6 +64,22 @@ if (isset($paths['local_config'])) {
         $mauticParams = array_merge($mauticParams, $parameters);
     }
 }
+    $generalConfigPath ='settings.php';
+    $absolute_path     = realpath($root);
+
+    if (strpos($absolute_path, 'leadsengage') !== false) {
+        $generalConfigPath = 'leadsengage/settings.php';
+    } elseif (strpos($absolute_path, 'cops') !== false) {
+        $generalConfigPath = 'cops/settings.php';
+    }
+
+// Load parameters array from general local configuration
+    if (file_exists('/var/www/appconfig/'.$generalConfigPath)) {
+        include '/var/www/appconfig/'.$generalConfigPath;
+
+        // Override default with general local
+        $mauticParams = array_merge($mauticParams, $parame);
+    }
 
 // Force local specific params
 if (file_exists(__DIR__.'/parameters_local.php')) {

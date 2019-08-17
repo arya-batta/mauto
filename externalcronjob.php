@@ -2,11 +2,32 @@
 
 //ini_set ( "display_errors", "1" );
 //error_reporting ( E_ALL );
-chdir('/var/www/mauto');
+$absolute_path     = __FILE__;
 
-include '../mautosaas/lib/process/config.php';
-include '../mautosaas/lib/process/field.php';
-include '../mautosaas/lib/util.php';
+$generalConfigPath ='settings.php';
+$saaspath          = 'mautosaas';
+$chdir             = 'mauto';
+
+if (strpos($absolute_path, 'leadsengage') !== false) {
+    $generalConfigPath = 'leadsengage/settings.php';
+    $saaspath          = 'leadsengagesaas';
+    $chdir             = 'leadsengage';
+} elseif (strpos($absolute_path, 'cops') !== false) {
+    $generalConfigPath = 'cops/settings.php';
+    $saaspath          = 'copssaas';
+    $chdir             = 'cops';
+}
+
+chdir('/var/www/'.$chdir);
+
+//include '../'.$saaspath.'/lib/process/config.php';
+
+if (file_exists('/var/www/appconfig/'.$generalConfigPath)) {
+    include '/var/www/appconfig/'.$generalConfigPath;
+}
+
+include '../'.$saaspath.'/lib/process/field.php';
+include '../'.$saaspath.'/lib/util.php';
 //include '../mautosaas/lib/process/createElasticEmailSubAccount.php';
 //include '../mautosaas/lib/process/createSendGridAccount.php';
 
@@ -98,6 +119,12 @@ try {
         } else {
             exit('Please Configure Valid Parameter');
         }
+
+        if (GENERAL::$MAINTANANCE_MODE) {
+            displayCronlog('general', 'Maintanace mode Enabled');
+            exit(0);
+        }
+
         $sql         = "select skiplimit from cronmonitorinfo where command='$operation'";
         $monitorinfo = getResultArray($con, $sql);
         if (sizeof($monitorinfo) > 0) {
@@ -146,8 +173,24 @@ try {
             $errorinfo   = getResultArray($con, $sql);
             if (sizeof($errorinfo) != 0 && $errorinfo[0][0] > 5) {
                 displayCronlog('general', "This operation ($operation) for ($domain) is failing repeatedly.");
+
+                $isNotNotifiedError = isNotNotifiedError($con, $domain, $operation);
+
+                if ($isNotNotifiedError) {
+                    $response = sendCronInfoSlack($domain, $operation);
+
+                    if ($response->success) {
+                        $sql         = "update cronerrorinfo set notified='1' where domain = '$domain' and operation = '$operation'";
+                        $result      = execSQL($con, $sql);
+                    } else {
+                        displayCronlog('general', 'Slack notification failed. Error:'.$response['error']);
+                    }
+                }
                 continue;
             }
+
+            updateProcessInMonitor($con, $domain, $operation);
+
             $command="app/console $arguments --domain=$domain";
             displayCronlog($domain, 'Command Invoked:'.$command);
             $output=executeCommand($command);
@@ -175,6 +218,9 @@ try {
 //                    }
 //                }
             }
+
+            cleanProcessInMonitor($con, $domain, $operation);
+
             displayCronlog($domain, $domain.' : '.$command);
             displayCronlog($domain, 'Command Results:'.$output);
             displayCronlog('general', "This operation ($operation) for ($domain) is Completed.");
@@ -209,7 +255,7 @@ function updatecronFailedstatus($con, $domain, $operation, $errorinfo)
     $con         =checkDBConnection($con);
     $errorinfo   = mysql_escape_string($errorinfo);
     $currentdate = date('Y-m-d H:i:s');
-    $sql         = "insert into cronerrorinfo values ('$domain','$operation','$currentdate','$errorinfo')";
+    $sql         = "insert into cronerrorinfo values ('$domain','$operation','$currentdate','$errorinfo','0')";
     displayCronlog($domain, 'SQL QUERY:'.$sql);
     $result      = execSQL($con, $sql);
 }
@@ -547,4 +593,44 @@ function checkDBConnection($con)
     }
 
     return $con;
+}
+
+function updateProcessInMonitor($con, $domain, $operation)
+{
+    $con      =checkDBConnection($con);
+    $datetime = date('y-m-d H:i:s');
+    $sql      = "insert into cronmonitor values('$domain','$operation','$datetime','0')";
+    $result   = execSQL($con, $sql);
+}
+
+function cleanProcessInMonitor($con, $domain, $operation)
+{
+    $con    =checkDBConnection($con);
+    $sql    = "delete from cronmonitor where domain='$domain' and operation='$operation'";
+    $result = execSQL($con, $sql);
+    displayCronlog('general', $result);
+}
+
+function isNotNotifiedError($con, $domain, $operation)
+{
+    $currentdate     = date('Y-m-d');
+    $sql             = "select count(*) from cronerrorinfo where domain = '$domain' and operation = '$operation' and notified='0' and createdtime like '$currentdate%'";
+    $notnotifiedinfo = getResultArray($con, $sql);
+
+    if ($notnotifiedinfo[0][0] > 0) {
+        return true;
+    }
+
+    return false;
+}
+
+function sendCronInfoSlack($domain, $process)
+{
+    $time                      = date('y-m-d H:i:s');
+    $additionalinfo['process'] = $process;
+    $additionalinfo['time']    = $time;
+
+    $response = sendInternalSlackNotification('cron_error_limit_exeeded', $domain, $additionalinfo);
+
+    return $response;
 }

@@ -88,7 +88,11 @@ class SecurityController extends CommonController
             $error = $session->get(Security::AUTHENTICATION_ERROR);
             $session->remove(Security::AUTHENTICATION_ERROR);
         }
-        $msg            ='';
+        $msg                      ='';
+        $maintananceNotitfication = $this->factory->getParameter('maintanance_notification');
+        if (!empty($maintananceNotitfication)) {
+            $msg = $maintananceNotitfication;
+        }
         $sessionexpired = $this->request->query->get('state', false);
         if ($sessionexpired) {
             $msg='Session Expired. Please Login.';

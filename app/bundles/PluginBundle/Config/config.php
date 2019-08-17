@@ -271,12 +271,12 @@ return [
         ],
     ],
     'parameters' => [
-        'facebook_app_id'                                   => '',
-        'facebook_app_secret'                               => '',
-        'facebook_oauth_callback'                           => 'https://apps.anyfunnels.com/integrations/facebook/callback.php',
-        'slack_client_id'                                   => '',
-        'slack_client_secret'                               => '',
-        'slack_internal_token'                              => '',
+        //'facebook_app_id'                                   => '',
+        //'facebook_app_secret'                               => '',
+        //'facebook_oauth_callback'                           => 'https://apps.anyfunnels.com/integrations/facebook/callback.php',
+        //'slack_client_id'                                   => '',
+        //'slack_client_secret'                               => '',
+        //'slack_internal_token'                              => '',
         'slack_internal_channel'                            => '',
     ],
 ];

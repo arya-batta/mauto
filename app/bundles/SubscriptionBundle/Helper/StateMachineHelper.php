@@ -59,6 +59,8 @@ class StateMachineHelper
                                 //'trial_sending_domain_not_configured'   => 'CK997TVB9',
                                // 'trial_unverified_email'                => 'CK997TVB9',
                                 'first_payment'                            => 'CKYBKNQP3',
+                                'cron_error_limit_exeeded'                 => '',
+                                'cron_time_limit_exeeded'                  => '',
                                ];
 
     public $fieldLabel    = ['mobile'=>'*Mobile*', 'email'=>'*Email*', 'signup_location'=>'*Signup Location*', 'signup_device'=>'*Signup Device*', 'signup_page'=>'*Signup Page*', 'account_creation_date'=>'*Account Creation Date*', 'company_name'=>'*Business Name*', 'website_url'=>'*Website URL*', /*'current_contact_size'=>'*Current Contact Size*',*/ 'existing_email_provider'=>'*Existing Email Provider*', 'gdpr_timezone'=>'*Time Zone*', 'last_15_days_email_send'=>'*Last 15 Days Email Sent*', 'last_activity_in_app'=>'*Last Active in App*'];
@@ -530,13 +532,28 @@ class StateMachineHelper
         return $content;
     }
 
+    public function getSlackDataForCronState($domain, $data=[])
+    {
+        $slackdata = "*Domain* - $domain \n";
+        foreach ($data as $key => $value) {
+            $slackdata .= "*$key* - $value \n ";
+        }
+        $slackdata .= "--- \n AnyFunnels Bot";
+
+        return $slackdata;
+    }
+
     public function processWebhookInternalSlack($data)
     {
         try {
             $success               = false;
             if (isset($data->state) && isset($data->domain)) {
-                $stateval = strtolower($data->state);
-                $this->sendInternalSlackMessage($stateval, $data->domain);
+                $stateval       = strtolower($data->state);
+                $additionalinfo = [];
+                if (isset($data->additionalinfo)) {
+                    $additionalinfo = $data->additionalinfo;
+                }
+                $this->sendInternalSlackMessage($stateval, $data->domain, $additionalinfo);
                 $success           =true;
             }
         } catch (\Exception $ex) {
@@ -548,14 +565,19 @@ class StateMachineHelper
         return $response;
     }
 
-    public function sendInternalSlackMessage($state, $domain=null)
+    public function sendInternalSlackMessage($state, $domain=null, $additionalinfo = [])
     {
         if (!isset($this->channelList[$state])) {
             return ['success'=>false, 'error'=>'channel not found for given state'];
         }
         $state        = strtolower($state);
-        $contentType  = !in_array($state, $this->basictype) ? 'Advanced' : 'Basic';
-        $slackContent = $this->getInternalSlackData($contentType, $domain);
+
+        if ($state != 'cron_error_limit_exeeded' && $state != 'cron_time_limit_exeeded') {
+            $contentType  = !in_array($state, $this->basictype) ? 'Advanced' : 'Basic';
+            $slackContent = $this->getInternalSlackData($contentType, $domain);
+        } else {
+            $slackContent = $this->getSlackDataForCronState($domain, $additionalinfo);
+        }
         $res          = ['success' => true, 'error' => ''];
         if ($slackContent == '') {
             $res      = ['success' => false, 'error' => 'content is empty'];

@@ -109,4 +109,9 @@ class ContentHelper extends Helper
     {
         return $this->coreParametersHelper->getParameter('product_brand_name');
     }
+
+    public function getStripeKey()
+    {
+        return $this->coreParametersHelper->getParameter('stripe_api_key_js');
+    }
 }

@@ -7,7 +7,21 @@
  */
 chdir('/var/www/mauto');
 
-include '../mautosaas/lib/process/config.php';
+//include '../mautosaas/lib/process/config.php';
+
+$generalConfigPath ='settings.php';
+$absolute_path     = __FILE__;
+
+if (strpos($absolute_path, 'leadsengage') !== false) {
+    $generalConfigPath = 'leadsengage/settings.php';
+} elseif (strpos($absolute_path, 'cops') !== false) {
+    $generalConfigPath = 'cops/settings.php';
+}
+
+if (file_exists('/var/www/appconfig/'.$generalConfigPath)) {
+    include '/var/www/appconfig/'.$generalConfigPath;
+}
+
 include '../mautosaas/lib/process/field.php';
 include '../mautosaas/lib/util.php';
 

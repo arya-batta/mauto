@@ -317,7 +317,10 @@ class MauticCoreExtension extends Extension
         } elseif (strpos($argument, '%') === 0) {
             // Parameter
             $argument              = str_replace('%%', '%', $argument);
-            $definitionArguments[] = $container->getParameter(substr($argument, 1, -1));
+
+            if ($container->hasParameter(str_replace('%', '', $argument))) {
+                $definitionArguments[] = $container->getParameter(substr($argument, 1, -1));
+            }
         } elseif (is_bool($argument) || strpos($argument, '\\') !== false) {
             // Parameter or Class
             $definitionArguments[] = $argument;

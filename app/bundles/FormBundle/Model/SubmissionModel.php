@@ -1059,8 +1059,12 @@ class SubmissionModel extends CommonFormModel
                 $this->logger->debug('FORM: Associating '.$ipAddress->getIpAddress().' to contact');
             }
         }
-        $lead->setStatus(1);
-        $lead->setScore('cold');
+        if (empty($lead->getStatus())) {
+            $lead->setStatus(1);
+        }
+        if (empty($lead->getScore())) {
+            $lead->setScore('cold');
+        }
         //set the mapped fields
         $this->leadModel->setFieldValues($lead, $data, false, true, true);
 

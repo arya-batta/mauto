@@ -487,8 +487,8 @@ return [
     'parameters' => [
         'form_upload_dir'        => '%kernel.root_dir%/../media/files/form',
         'blacklisted_extensions' => ['php', 'sh'],
-        'Phantom_JS_Cloud_Apikey'=> '',
-        'gcaptcha_site_key'      => '',
-        'gcaptcha_secret_key'    => '',
+        //'Phantom_JS_Cloud_Apikey'=> '',
+        //'gcaptcha_site_key'      => '',
+        //'gcaptcha_secret_key'    => '',
     ],
 ];

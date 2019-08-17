@@ -192,6 +192,9 @@ class Configurator
             'elastic_subaccount_password',
             'le_elastic_email_trial_user',
             'le_elastic_email_trial_password',
+            'maintanance_notification',
+            'stripe_api_key',
+            'stripe_api_key_js',
         ];
         for ($i = 0; $i < sizeof($unset); ++$i) {
             if (isset($this->parameters[$unset[$i]])) {

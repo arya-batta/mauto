@@ -23,8 +23,9 @@ $leContent = $view['slots']->get(
     var leAssetPrefix = '<?php echo $view['assets']->getAssetPrefix(true); ?>';
     var leContent     = '<?php echo $leContent; ?>';
     var leEnv         = '<?php echo $app->getEnvironment(); ?>';
-    var leClientID        = '<?php echo $view['assets']->getAppid(); ?>';
-    var productBrandName        = '<?php echo $view['content']->getProductBrandName(); ?>';
+    var leClientID       = '<?php echo $view['assets']->getAppid(); ?>';
+    var productBrandName = '<?php echo $view['content']->getProductBrandName(); ?>';
+    var stripeKey        = '<?php echo $view['content']->getStripeKey(); ?>';
     var leLang        = <?php echo $view['translator']->getJsLang(); ?>;
 
    //document.addEventListener("contextmenu", function(e){
