@@ -616,6 +616,8 @@ class CampaignController extends AbstractStandardFormController
             ];
         }
 
+        $args['includeStat'] = true;
+
         return parent::getIndexItems(
             $start,
             $limit,

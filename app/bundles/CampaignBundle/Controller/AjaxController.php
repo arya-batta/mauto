@@ -146,20 +146,47 @@ class AjaxController extends CommonAjaxController
     protected function getWorkFlowCountStatsAction(Request $request)
     {
         /** @var CampaignModel $model */
-        $model = $this->getModel('campaign');
+        $model       = $this->getModel('campaign');
+        $cacheHelper = $this->factory->getHelper('cache_storage');
+
+        $id  = $request->get('id');
+        $ids = $request->get('ids');
+        // Support for legacy calls
+        if (!$ids && $id) {
+            $ids = [$id];
+        }
 
         $data = [];
-        if ($id = $request->get('id')) {
+        foreach ($ids as $id) {
             if ($campaign = $model->getEntity($id)) {
                 $canvassettings=json_decode($campaign->getCanvasSettings());
                 $exitevents    =$model->getExitEvent($canvassettings);
-                $data          = [
-                    'success'  => 1,
-                    'progress' => $model->getRepository()->getWfProgressLeadsCount($campaign, $exitevents),
-                    'completed'=> $model->getRepository()->getWfCompletedLeadsCount($campaign, $exitevents),
-                    'goals'    => $model->getRepository()->getWfGoalAchievedLeadsCount($campaign),
+
+                $progress  = $model->getRepository()->getWfProgressLeadsCount($campaign, $exitevents);
+                $completed = $model->getRepository()->getWfCompletedLeadsCount($campaign, $exitevents);
+                $goals     = $model->getRepository()->getWfGoalAchievedLeadsCount($campaign);
+
+                $cacheHelper->set(sprintf('%s|%s|%s', 'campaign', $id, 'progress'), $progress);
+                $cacheHelper->set(sprintf('%s|%s|%s', 'campaign', $id, 'completed'), $completed);
+                $cacheHelper->set(sprintf('%s|%s|%s', 'campaign', $id, 'goals'), $goals);
+
+                $data[]         = [
+                    'id'       => $id,
+                    'progress' => $progress,
+                    'completed'=> $completed,
+                    'goals'    => $goals,
                 ];
             }
+        }
+
+        // Support for legacy calls
+        if ($request->get('id')) {
+            $data = $data[0];
+        } else {
+            $data = [
+                'success' => 1,
+                'stats'   => $data,
+            ];
         }
 
         return new JsonResponse($data);

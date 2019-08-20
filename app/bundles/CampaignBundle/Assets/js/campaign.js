@@ -234,23 +234,39 @@ Le.campaignOnLoad = function (container, response) {
     mQuery('.chosen-single').css("background","#fff");
     Le.removeActionButtons();
     if (mQuery('table.campaign-list').length) {
+        var ids = [];
         mQuery('tr.wf-row-stats').each(function () {
             var id = mQuery(this).attr('data-stats');
-            // Process the request one at a time or the xhr will cancel the previous
+            ids.push(id);
+        });
+
+        // Get all stats numbers in batches of 10
+        while (ids.length > 0) {
+            var batchIds = ids.splice(0, 10);
             Le.ajaxActionRequest(
                 'campaign:getWorkFlowCountStats',
-                {id: id},
+                {ids: batchIds},
                 function (response) {
-                    if (response.success && mQuery('#wf-progress-' + id + ' div').length) {
+                    if (response.success && response.stats) {
+                        for (var i = 0; i < response.stats.length; i++) {
+                            var stat = response.stats[i];
+
+                            mQuery('#wf-progress-' + stat.id + ' > a').html(stat.progress);
+                            mQuery('#wf-completed-' + stat.id + ' > a').html(stat.completed);
+                            mQuery('#wf-goal-' + stat.id + ' > a').html(stat.goals);
+                        }
+                    }
+
+                    /**if (response.success && mQuery('#wf-progress-' + id + ' div').length) {
                         mQuery('#wf-progress-' + id + ' > a').html(response.progress);
                         mQuery('#wf-completed-' + id + ' > a').html(response.completed);
                         mQuery('#wf-goal-' + id + ' > a').html(response.goals);
-                    }
+                    }*/
                 },
                 false,
                 true
             );
-        });
+        }
     }
    Le.hideFlashMessage();
     if(!mQuery('html').hasClass('sidebar-minimized')){

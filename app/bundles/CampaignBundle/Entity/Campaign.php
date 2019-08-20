@@ -89,6 +89,21 @@ class Campaign extends FormEntity
     private $campaignOrder;
 
     /**
+     * @var int
+     */
+    private $progressCount = 0;
+
+    /**
+     * @var int
+     */
+    private $completedCount = 0;
+
+    /**
+     * @var int
+     */
+    private $goalCount = 0;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -573,5 +588,53 @@ class Campaign extends FormEntity
                     )
                     ->orderBy(['dateAdded' => Criteria::DESC])
         );
+    }
+
+    /**
+     * @return int
+     */
+    public function getProgressCount()
+    {
+        return $this->progressCount;
+    }
+
+    /**
+     * @param int $progressCount
+     */
+    public function setProgressCount($progressCount)
+    {
+        $this->progressCount = $progressCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCompletedCount()
+    {
+        return $this->completedCount;
+    }
+
+    /**
+     * @param int $completedCount
+     */
+    public function setCompletedCount($completedCount)
+    {
+        $this->completedCount = $completedCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGoalCount()
+    {
+        return $this->goalCount;
+    }
+
+    /**
+     * @param int $goalCount
+     */
+    public function setGoalCount($goalCount)
+    {
+        $this->goalCount = $goalCount;
     }
 }

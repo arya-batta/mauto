@@ -187,6 +187,42 @@ class CampaignModel extends CommonFormModel
     }
 
     /**
+     * Return a list of entities.
+     *
+     * @param array $args [start, limit, filter, orderBy, orderByDir]
+     *
+     * @return \Doctrine\ORM\Tools\Pagination\Paginator|array
+     */
+    public function getEntities(array $args = [])
+    {
+        $entities = parent::getEntities($args);
+
+        if (isset($args['includeStat']) && $args['includeStat'] == true) {
+            $cacheHelper = $this->factory->getHelper('cache_storage');
+
+            foreach ($entities as $entity) {
+                $progress    = $cacheHelper->get(sprintf('%s|%s|%s', 'campaign', $entity->getId(), 'progress'));
+                $completed   = $cacheHelper->get(sprintf('%s|%s|%s', 'campaign', $entity->getId(), 'completed'));
+                $goals       = $cacheHelper->get(sprintf('%s|%s|%s', 'campaign', $entity->getId(), 'goals'));
+
+                if ($progress !== false) {
+                    $entity->setProgressCount($progress);
+                }
+
+                if ($completed !== false) {
+                    $entity->setCompletedCount($completed);
+                }
+
+                if ($goals !== false) {
+                    $entity->setGoalCount($goals);
+                }
+            }
+        }
+
+        return $entities;
+    }
+
+    /**
      * @param object $entity
      */
     public function deleteEntity($entity)

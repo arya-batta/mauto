@@ -171,9 +171,10 @@ $isAdmin=$view['security']->isAdmin();
                                 ['search' => $view['translator']->trans('le.lead.campaign.searchcommand.wf-progress').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.workflow.stats.progress.tooltip'); ?>">
-                                <div class="wf-spinner-alignment">
-                                    <i class="fa fa-spin fa-spinner"></i>
-                                </div>
+<!--                                <div class="wf-spinner-alignment">-->
+<!--                                    <i class="fa fa-spin fa-spinner"></i>-->
+<!--                                </div>-->
+                                <?php echo $view['translator']->trans('le.campaign.stat.progresscount', ['%count%' => $item->getProgressCount()]); ?>
                             </a>
                         </span>
                     </td>
@@ -185,9 +186,10 @@ $isAdmin=$view['security']->isAdmin();
                                 ['search' => $view['translator']->trans('le.lead.campaign.searchcommand.wf-completed').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.workflow.stats.completed.tooltip'); ?>">
-                                <div class="wf-spinner-alignment">
-                                    <i class="fa fa-spin fa-spinner"></i>
-                                </div>
+<!--                                <div class="wf-spinner-alignment">-->
+<!--                                    <i class="fa fa-spin fa-spinner"></i>-->
+<!--                                </div>-->
+                                <?php echo $view['translator']->trans('le.campaign.stat.completedcount', ['%count%' => $item->getCompletedCount()]); ?>
                             </a>
                         </span>
                     </td>
@@ -199,9 +201,10 @@ $isAdmin=$view['security']->isAdmin();
                                 ['search' => $view['translator']->trans('le.lead.campaign.searchcommand.wf-goal').':'.$item->getId()]
                             ); ?>" data-toggle="tooltip"
                                title="<?php echo $view['translator']->trans('le.workflow.stats.goal.tooltip'); ?>">
-                                <div class="wf-spinner-alignment">
-                                    <i class="fa fa-spin fa-spinner"></i>
-                                </div>
+<!--                                <div class="wf-spinner-alignment">-->
+<!--                                    <i class="fa fa-spin fa-spinner"></i>-->
+<!--                                </div>-->
+                                <?php echo $view['translator']->trans('le.campaign.stat.goalcount', ['%count%' => $item->getGoalCount()]); ?>
                             </a>
                         </span>
                     </td>
