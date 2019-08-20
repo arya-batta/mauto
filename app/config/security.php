@@ -77,8 +77,12 @@ $firewalls = [
         'fos_oauth'          => true,
         'bazinga_oauth'      => true,
         'mautic_plugin_auth' => true,
-        'stateless'          => true,
+        'stateless'          => false,
         'http_basic'         => '%mautic.api_enable_basic_auth%',
+        'simple_preauth'     => [
+            'authenticator'  => 'mautic.user.api_authenticator',
+        ],
+        'provider' => 'user_provider',
     ],
     'main' => [
         'pattern'       => '^/a/',
@@ -171,7 +175,7 @@ $container->loadFromExtension(
         ],
         'firewalls'      => $firewalls,
         'access_control' => [
-            ['path' => '^/api', 'roles' => 'IS_AUTHENTICATED_FULLY'],
+            ['path' => '^/api', 'roles' => 'ROLE_API'],
         ],
     ]
 );

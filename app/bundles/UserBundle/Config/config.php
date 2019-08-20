@@ -234,6 +234,15 @@ return [
                     'request_stack',
                 ],
             ],
+            'mautic.user.api_authenticator' => [
+                'class'     => 'Mautic\UserBundle\Security\Authenticator\ApiAuthenticator',
+                'arguments' => [
+                    'mautic.helper.integration',
+                    'security.password_encoder',
+                    'event_dispatcher',
+                    'request_stack',
+                ],
+            ],
             'mautic.user.preauth_authenticator' => [
                 'class'     => 'Mautic\UserBundle\Security\Authenticator\PreAuthAuthenticator',
                 'arguments' => [

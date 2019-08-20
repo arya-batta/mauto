@@ -17,3 +17,12 @@ Le.refreshApiClientForm = function(url, modeEl) {
 
     Le.loadContent(url + '/' + mode);
 };
+
+Le.regenerateApiKey = function(){
+    Le.ajaxActionRequest('api:regenerateApi', {}, function (response) {
+        if (response.success) {
+            var apikey = response.apikey;
+            mQuery('#api_token').val(apikey);
+        }
+    });
+};

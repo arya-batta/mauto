@@ -49,7 +49,7 @@ $fields        = $form['apiconfig']->children;
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-10">
                         <div class="api_token_help" style="width:50%;float:left;">
                             <label class="control-label" id="callback_label_1">API Key</label>
                         </div>
@@ -59,8 +59,8 @@ $fields        = $form['apiconfig']->children;
                             copy to clipboard                </a>
                         <p style="float:right;" class="hide">For more information <a href="https://developer.anyfunnels.com/" style="text-decoration: underline;" target="_blank">click here</a></p>
                     </div>
-                    <div class="col-sm-6 hide">
-                        <a class="btn btn-info" style="margin-top:25px;margin-left:-18px;" onclick='Le.regenerateApikey("<?php echo 'kaviarasan@dacamsys.com'?>");'>Generate</a>
+                    <div class="col-sm-2">
+                        <a class="btn btn-info" style="margin-top:25px;margin-left:-18px;" onclick='Le.regenerateApiKey();'>Generate</a>
                     </div>
                 </div>
             </div>

@@ -131,6 +131,36 @@ class UserProvider implements UserProviderInterface
     }
 
     /**
+     * @param string $apiKey
+     *
+     * @return User
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getUserbyApiKey($apiKey)
+    {
+        $q = $this->userRepository
+            ->createQueryBuilder('u')
+            ->select('u, r')
+            ->leftJoin('u.role', 'r')
+            ->where('u.apiKey = :apiKey')
+            ->andWhere('u.isPublished = :true')
+            ->setParameter('true', true, 'boolean')
+            ->setParameter('apiKey', $apiKey);
+
+        $user = $q->getQuery()->getOneOrNullResult();
+        if (empty($user)) {
+            $message = sprintf(
+                'Unable to find an active admin MauticUserBundle:User object identified by "%s".',
+                $apiKey
+            );
+            throw new UsernameNotFoundException($message, 0);
+        }
+
+        return $user;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function refreshUser(UserInterface $user)
